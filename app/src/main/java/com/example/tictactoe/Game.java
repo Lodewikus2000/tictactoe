@@ -1,7 +1,9 @@
 package com.example.tictactoe;
 
 
-public class Game {
+import java.io.Serializable;
+
+public class Game implements Serializable {
     final private int BOARD_SIZE = 3;
     private TileState[][] board;
 
@@ -19,6 +21,11 @@ public class Game {
         playerOneTurn = true;
         gameOver = false;
     }
+
+    public boolean playerOneTurn(){
+       return playerOneTurn;
+    }
+
 
     public TileState choose(int row, int column) {
         TileState currentState = board[row][column];
@@ -99,6 +106,11 @@ public class Game {
         }
 
         return GameState.DRAW;
+    }
+
+    public TileState getTileState(int row, int column) {
+        TileState state = board[row][column];
+        return state;
     }
 
 

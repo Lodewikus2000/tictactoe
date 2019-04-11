@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static com.example.tictactoe.GameState.DRAW;
 import static com.example.tictactoe.GameState.IN_PROGRESS;
@@ -19,26 +20,222 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        game = new Game();
 
-        ((TextView)findViewById(R.id.button00)).setText(" ");
-        ((TextView)findViewById(R.id.button01)).setText(" ");
-        ((TextView)findViewById(R.id.button02)).setText(" ");
-        ((TextView)findViewById(R.id.button10)).setText(" ");
-        ((TextView)findViewById(R.id.button11)).setText(" ");
-        ((TextView)findViewById(R.id.button12)).setText(" ");
-        ((TextView)findViewById(R.id.button20)).setText(" ");
-        ((TextView)findViewById(R.id.button21)).setText(" ");
-        ((TextView)findViewById(R.id.button22)).setText(" ");
+
+        // Try to load a previous instance.
+        if (savedInstanceState != null) {
+            game = (Game) savedInstanceState.getSerializable("game");
+        }
+        else {
+            game = new Game();
+        }
+
+
+        GameState gameState = game.won();
+        TextView statusBar = findViewById(R.id.textView);
+        switch (gameState) {
+            case IN_PROGRESS:
+                boolean playerOneTurn = game.playerOneTurn();
+                if (playerOneTurn) {
+                    statusBar.setText("Player 1's turn...");
+                } else {
+                    statusBar.setText("Player 2's turn...");
+                }
+                break;
+            case PLAYER_ONE:
+                statusBar.setText("Player 1 won!");
+                break;
+            case PLAYER_TWO:
+                statusBar.setText("Player 2 won!");
+                break;
+            case DRAW:
+                statusBar.setText("Draw!");
+                break;
+        }
+
+
+
+
+        // Get the state.
+        TileState tileState = game.getTileState(0,0);
+        // Get the view.
+        TextView button = (TextView) findViewById(R.id.button00);
+
+        switch (tileState) {
+            case BLANK:
+                button.setText(" ");
+                break;
+            case CROSS:
+                button.setText("X");
+                break;
+            case CIRCLE:
+                button.setText("O");
+                break;
+            case INVALID:
+                break;
+        }
+
+        // Get the state.
+        tileState = game.getTileState(0,1);
+        // Get the view.
+        button = (TextView) findViewById(R.id.button01);
+
+        switch (tileState) {
+            case BLANK:
+                button.setText(" ");
+                break;
+            case CROSS:
+                button.setText("X");
+                break;
+            case CIRCLE:
+                button.setText("O");
+                break;
+            case INVALID:
+                break;
+        }
+
+        // Get the state.
+        tileState = game.getTileState(0,2);
+        // Get the view.
+        button = (TextView) findViewById(R.id.button02);
+
+        switch (tileState) {
+            case BLANK:
+                button.setText(" ");
+                break;
+            case CROSS:
+                button.setText("X");
+                break;
+            case CIRCLE:
+                button.setText("O");
+                break;
+            case INVALID:
+                break;
+        }
+
+        // Get the state.
+        tileState = game.getTileState(1,0);
+        // Get the view.
+        button = (TextView) findViewById(R.id.button10);
+
+        switch (tileState) {
+            case BLANK:
+                button.setText(" ");
+                break;
+            case CROSS:
+                button.setText("X");
+                break;
+            case CIRCLE:
+                button.setText("O");
+                break;
+            case INVALID:
+                break;
+        }
+
+        // Get the state.
+        tileState = game.getTileState(1,1);
+        // Get the view.
+        button = (TextView) findViewById(R.id.button11);
+
+        switch (tileState) {
+            case BLANK:
+                button.setText(" ");
+                break;
+            case CROSS:
+                button.setText("X");
+                break;
+            case CIRCLE:
+                button.setText("O");
+                break;
+            case INVALID:
+                break;
+        }
+
+        // Get the state.
+        tileState = game.getTileState(1,2);
+        // Get the view.
+        button = (TextView) findViewById(R.id.button12);
+
+        switch (tileState) {
+            case BLANK:
+                button.setText(" ");
+                break;
+            case CROSS:
+                button.setText("X");
+                break;
+            case CIRCLE:
+                button.setText("O");
+                break;
+            case INVALID:
+                break;
+        }
+
+        // Get the state.
+        tileState = game.getTileState(2,0);
+        // Get the view.
+        button = (TextView) findViewById(R.id.button20);
+
+        switch (tileState) {
+            case BLANK:
+                button.setText(" ");
+                break;
+            case CROSS:
+                button.setText("X");
+                break;
+            case CIRCLE:
+                button.setText("O");
+                break;
+            case INVALID:
+                break;
+        }
+
+        // Get the state.
+        tileState = game.getTileState(2,1);
+        // Get the view.
+        button = (TextView) findViewById(R.id.button21);
+
+        switch (tileState) {
+            case BLANK:
+                button.setText(" ");
+                break;
+            case CROSS:
+                button.setText("X");
+                break;
+            case CIRCLE:
+                button.setText("O");
+                break;
+            case INVALID:
+                break;
+        }
+
+        // Get the state.
+        tileState = game.getTileState(2,2);
+        // Get the view.
+        button = (TextView) findViewById(R.id.button22);
+
+        switch (tileState) {
+            case BLANK:
+                button.setText(" ");
+                break;
+            case CROSS:
+                button.setText("X");
+                break;
+            case CIRCLE:
+                button.setText("O");
+                break;
+            case INVALID:
+                break;
+        }
     }
 
 
-
     public void tileClicked(View view) {
+
         GameState gameState = game.won();
-        if (gameState != IN_PROGRESS){
+        if (gameState != IN_PROGRESS) {
             return;
         }
+
 
         int id = view.getId();
 
@@ -112,24 +309,40 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("button", "should be changed to O");
                 break;
             case INVALID:
+                Toast.makeText(this, "Invalid move!", Toast.LENGTH_SHORT).show();
                 break;
         }
+
+
+        TextView statusBar = findViewById(R.id.textView);
 
         gameState = game.won();
 
         switch (gameState) {
+            case IN_PROGRESS:
+                boolean playerOneTurn = game.playerOneTurn();
+                if (playerOneTurn) {
+                    statusBar.setText("Player 1's turn...");
+                } else {
+                    statusBar.setText("Player 2's turn...");
+                }
+                break;
             case PLAYER_ONE:
                 Log.d("state", "PLAYER ONE WON");
-
-                break;
+                statusBar.setText("Player one won!");
+                return;
             case PLAYER_TWO:
                 Log.d("state", "PLAYER TWO WON");
-                break;
+                statusBar.setText("Player two won!");
+                return;
             case DRAW:
                 Log.d("state", "DRAW");
-                break;
+                statusBar.setText("Draw!");
+                return;
         }
+
     }
+
 
     public void resetClicked(View view) {
         game = new Game();
@@ -145,7 +358,9 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.button22)).setText(" ");
     }
 
-    public void party (int player) {
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        outState.putSerializable("game", game);
     }
 }
