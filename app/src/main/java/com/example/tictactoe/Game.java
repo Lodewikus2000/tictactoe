@@ -91,7 +91,7 @@ public class Game implements Serializable {
             }
         }
 
-
+        // If we came this far, the game was not won, so we check if any moves are possible.
         boolean empty_found = false;
 
         for(int i=0; i<BOARD_SIZE; i++)
@@ -112,6 +112,5 @@ public class Game implements Serializable {
         TileState state = board[row][column];
         return state;
     }
-
 
 }

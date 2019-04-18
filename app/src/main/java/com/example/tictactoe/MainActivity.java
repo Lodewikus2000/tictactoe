@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         GameState gameState = game.won();
         TextView statusBar = findViewById(R.id.textView);
+
         switch (gameState) {
             case IN_PROGRESS:
+                // If the game is in progress, tell the player whose turn it is.
                 boolean playerOneTurn = game.playerOneTurn();
                 if (playerOneTurn) {
                     statusBar.setText("Player 1's turn...");
@@ -57,12 +59,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
+        // Iterate over the coordinates of the tiles.
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 Button button = findViewById(getResources().getIdentifier("button" + i + j, "id", this.getPackageName()));
 
                 TileState tileState = game.getTileState(i, j);
 
+                // Set the tile's text and color based on their status.
                 switch (tileState) {
                     case BLANK:
                         button.setText(" ");
@@ -155,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         // Get the view of the button that was pressed.
         TextView button = (TextView) view;
 
+        // See what the press of the button means for the game.
         switch (state) {
             case BLANK:
                 button.setText(" ");
@@ -181,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
         gameState = game.won();
 
+        // Display the game's state in the statusbar.
         switch (gameState) {
             case IN_PROGRESS:
                 boolean playerOneTurn = game.playerOneTurn();
@@ -207,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void resetClicked(View view) {
 
+        // Iterate over the coordinates of the grid, set their text, and base their color on their place in the grid.
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 Button button = findViewById(getResources().getIdentifier("button" + i + j, "id", this.getPackageName()));
